@@ -1,5 +1,37 @@
-<p>jogos works!</p>
 
-<div *ngFor="let jogo of jogos">
-  <p><b>Tema:</b>{{jogo.nome}}</p>
+<h1>Jogos Disponíveis!</h1>
+
+<div class="form-inline">
+
+  <div class="form-group mb-2">
+    <input type="text" class="form-control mr-2"
+    placeholder="buscar"[(ngModel)]="filtro">
+  </div>
 </div>
+<!--<h3>teste={{filtro}}</h3> -->
+
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Título</th>
+      <th>Descrição</th>
+      <th>Data de Lançamento</th>
+      <th>Gênero do Jogo</th>
+      <th>Desenvolvedora</th>
+      <th>Button</th>
+
+    </tr>
+  </thead>
+  <tbody *ngIf="jogos && jogos.length">
+    <tr *ngFor="let jogo of jogosFiltrados">
+      <td>{{jogo.nome}}</td>
+      <td>{{jogo.descricao}}</td>
+      <td>{{jogo.dataLancamento}}</td>
+      <td>{{jogo.genero}}</td>
+      <td>{{jogo.desenvolvedora}}</td>
+      <td><button type="button" class="btn btn-primary mr-2">Editar</button>
+        <button type="button" class="btn btn-danger">Excluir</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
