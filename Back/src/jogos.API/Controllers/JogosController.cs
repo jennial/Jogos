@@ -11,10 +11,10 @@ namespace Jogos.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class JogoController : ControllerBase
+    public class JogosController : ControllerBase
     {
         private readonly DataContext _context;
-        public JogoController(DataContext context)
+        public JogosController(DataContext context)
         {           
             _context = context;    
         }     
