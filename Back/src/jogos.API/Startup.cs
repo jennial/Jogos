@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using jogos.API.Data;
+using jogos.Persistence;
+using Jogos.Application.Contratos;
+using Jogos.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,16 +24,18 @@ namespace jogos.API
         {
             Configuration = configuration;
         }
-
+ 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(
+            services.AddDbContext<JogosContext>(
                 context => context.UseSqlite(Configuration.GetConnectionString("Default"))
             );
             services.AddControllers();
+            services.AddScoped<IJogosService, Service>();
+            services.AddScoped<IJogosPersistence>();
             services.AddCors();
             services.AddSwaggerGen(c =>
             {

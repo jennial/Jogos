@@ -2,18 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using Jogos.Domain;
 
-namespace jogos.API.Models
-{  [Keyless]
+namespace jogos.Domain.Models
+{
     public class Jogo
     {
-        public int IdJogo { get; set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
-        public string DataLancamento { get; set; }
+        public DateTime? DataLancamento { get; set; }
         public string Descricao { get; set; }
         public string Genero { get; set; }
         public string Desenvolvedora { get; set; }
+
+        public IEnumerable<JogoGenero> JogosGeneros { get; set; }
     }
 
 

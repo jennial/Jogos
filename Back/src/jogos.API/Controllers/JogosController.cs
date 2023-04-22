@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using jogos.API.Data;
-using jogos.API.Models;
+using jogos.Persistence;
+using jogos.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Jogos.Application.Contratos;
+using Microsoft.AspNetCore.Http;
 
 namespace Jogos.API.Controllers
 {
@@ -13,18 +15,93 @@ namespace Jogos.API.Controllers
     [Route("api/[controller]")]
     public class JogosController : ControllerBase
     {
-        private readonly DataContext _context;
-        public JogosController(DataContext context)
+        public IJogosService JogosSevice { get; }
+
+        public JogosController(IJogosService jogosService)
         {           
-            _context = context;    
+            this.JogosSevice = jogosService;
+
         }     
        
         
-        [HttpGet]
-        public IEnumerable<Jogo> Get(){
+        [HttpGet("{nome}/nome")]
+        public async Task<IActionResult> GetByNome(string nome){
         {
-           return _context.jogos;
+         try
+         {
+            var jogos = await JogosSevice.GetAllJogosByNomeAsync(nome, true);
+            if (jogos == null)return NotFound("Não foi encontrado nenhuma informação");
+
+            return Ok(jogos);
+         }
+         catch (Exception ex)
+         {
+            
+            return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                                    $"Erro ao tentar recuperar informações{ex.Message}");
+         }
         }
-      } 
+        } 
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int Id){
+        {
+         try
+         {
+            var jogos = await JogosSevice.GetJogoByIdAsync(Id, true);
+            if (jogos == null)return NotFound("Não foi encontrado nenhuma informação");
+
+            return Ok(jogos);
+         }
+         catch (Exception ex)
+         {
+            
+            return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                                    $"Erro ao tentar recuperar informações{ex.Message}");
+         }
+        }
+        }
+
+
+        [HttpPost]
+        
+        public async Task<IActionResult> Post(Jogo model){
+        {
+         try
+         {
+            var jogos = await JogosSevice.AddJogos(model);
+            if (jogos == null)return BadRequest("Erro ao adicionar informações");
+
+            return Ok(jogos);
+         }
+         catch (Exception ex)
+         {
+            
+            return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                                    $"Erro ao tentar adicionar informações{ex.Message}");
+         }
+        }
+        }
+
+        [HttpPut("{id}")]
+        
+        public async Task<IActionResult> Put(int Id, Jogo model){
+        {
+         try
+         {
+            var jogos = await JogosSevice.UpdateJogo(Id, model);
+            if (jogos == null)return BadRequest("Erro ao adicionar informações");
+
+            return Ok(jogos);
+         }
+         catch (Exception ex)
+         {
+            
+            return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                                    $"Erro ao tentar atualizar informações{ex.Message}");
+         }
+        }
+        }
+
     }
 }
