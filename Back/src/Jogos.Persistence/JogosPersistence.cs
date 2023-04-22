@@ -65,7 +65,7 @@ namespace Jogos.Persistence
             query = query.OrderBy(e => e.Id);
             return await query.ToArrayAsync();
         }
-
+  
         async Task<Jogo[]> IJogosPersistence.GetAllJogosByNomeAsync(string nome, bool includeGenero)
         {
             IQueryable<Jogo> query= Context.Jogos;

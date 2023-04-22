@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Jogos.Domain
 {
-    public class Genero{
+    public class Genero{  
         public int Id { get; set; }
         
         public string Nome { get; set; }
