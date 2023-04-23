@@ -1,11 +1,11 @@
 import {Genero} from './Genero';
 
 export interface Jogo {
- Id : number;
- Nome : string;
- DataLancamento : Date;
- Descricao : string;
- Genero : string;
- Desenvolvedora : string;
- JogoGenero: Genero[];
+ id : number;
+ nome : string;
+ dataLancamento : Date;
+ descricao : string;
+ genero : string;
+ desenvolvedora : string;
+ jogoGenero: Genero[];
 }

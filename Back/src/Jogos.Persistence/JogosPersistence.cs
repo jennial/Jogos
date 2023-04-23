@@ -1,95 +1,97 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using jogos.Domain.Models;
-using jogos.Persistence;
+using jogos.Persistence.Contexto;
 using Jogos.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Jogos.Persistence
 {
-    public class p : IJogosPersistence
-    {  
-        public JogosContext Context { get; }
-        
-         public p(JogosContext context)
-         {
-            this.Context = context;
+    public class JogosPersistence : IJogosPersistence
+    {
+        private readonly JogosContext context;
+        public JogosPersistence(JogosContext context)
+        {
+            this.context = context;
             
-         }
-        void IJogosPersistence.Add<T>(T entity)
+        }
+        public void Add<T>(T entity) where T : class
         {
-            Context.Add(entity);
+            context.Add(entity);
         }
 
-        void IJogosPersistence.Delete<T>(T entity)
+       public void Update<T>(T entity) where T : class
         {
-            Context.Remove(entity);
+            context.Update(entity);
         }
 
-        void IJogosPersistence.DeleteRange<T>(T[] entityArray)
+        public void Delete<T>(T entity) where T : class
         {
-            Context.RemoveRange(entityArray);
-        }
-        async Task<bool> IJogosPersistence.SaveChangesAsync()
-        {
-            return (await Context.SaveChangesAsync()) > 0;
+            context.Remove(entity);
         }
 
-        void IJogosPersistence.Update<T>(T entity)
+        // public void DeleteRange<T>(T[] entityArray) where T : class
+        // {
+        //     context.RemoveRange(entityArray);
+        // }
+
+        public async Task<bool> SaveChangesAsync()
         {
-            Context.Update(entity);
+            return (await context.SaveChangesAsync()) > 0;
         }
-
-         async Task<Genero[]> IJogosPersistence.GetAllGenerosAsync(bool includeGenero)
+        public async Task<Jogo[]> GetAllJogosByNomeAsync(string nome, bool includeGenero = false)
         {
-            IQueryable<Genero> query= Context.Generos;
-
-            query = query.OrderBy(e => e.Id);
-            return await query.ToArrayAsync();
-        }
-
-        async Task<Genero[]> IJogosPersistence.GetAllGenerosByNomeAsync(string nome, bool includeJogo)
-        {
-              IQueryable<Genero> query= Context.Generos;
+            IQueryable<Jogo> query= context.Jogos;
 
             query = query.OrderBy(e => e.Id).Where(e=> e.Nome.ToLower().Contains(nome.ToLower()));
             return await query.ToArrayAsync();
         }
 
-        async Task<Jogo[]> IJogosPersistence.GetAllJogosAsync(bool includeGenero)
+        public async Task<Jogo[]> GetAllJogosAsync(bool includeGenero = false)
         {
-            IQueryable<Jogo> query= Context.Jogos;
+            IQueryable<Jogo> query= context.Jogos;
 
             query = query.OrderBy(e => e.Id);
             return await query.ToArrayAsync();
         }
-  
-        async Task<Jogo[]> IJogosPersistence.GetAllJogosByNomeAsync(string nome, bool includeGenero)
+
+
+        public async Task<Jogo> GetJogoByIdAsync(int JogoId, bool includeGenero = false)
         {
-            IQueryable<Jogo> query= Context.Jogos;
-
-            query = query.OrderBy(e => e.Id).Where(e=> e.Nome.ToLower().Contains(nome.ToLower()));
-            return await query.ToArrayAsync();
-        }
-
-        async Task<Genero> IJogosPersistence.GetGeneroByIdAsync(int GeneroId, bool includeGenero)
-        {
-            IQueryable<Genero> query= Context.Generos;
-
-            query = query.OrderBy(e => e.Id).Where(e=> e.Id == GeneroId);
-            return await query.FirstOrDefaultAsync();
-        }
-
-        async Task<Jogo> IJogosPersistence.GetJogoByIdAsync(int JogoId, bool includeGenero)
-        {
-            IQueryable<Jogo> query= Context.Jogos;
+            IQueryable<Jogo> query= context.Jogos;
 
             query = query.OrderBy(e => e.Id).Where(e=> e.Id == JogoId);
 
             return await query.FirstOrDefaultAsync();
         }
+
+        public async Task<Genero[]> GetAllGenerosByNomeAsync(string nome, bool includeJogo = false)
+        {
+            IQueryable<Genero> query= context.Generos;
+
+            query = query.OrderBy(e => e.Id).Where(e=> e.Nome.ToLower().Contains(nome.ToLower()));
+            return await query.ToArrayAsync();
+        } 
+
+        public async Task<Genero[]> GetAllGenerosAsync(bool includeJogo = false)
+        {
+            IQueryable<Genero> query= context.Generos;
+
+            query = query.OrderBy(e => e.Id);
+            return await query.ToArrayAsync();
+        }       
+
+        
+
+        public async Task<Genero> GetGeneroByIdAsync(int GeneroId, bool includeJogo = false)
+        {
+            IQueryable<Genero> query= context.Generos;
+
+            query = query.OrderBy(e => e.Id).Where(e=> e.Id == GeneroId);
+            return await query.FirstOrDefaultAsync();
+        }
+
+       
 
 
     }

@@ -6,6 +6,7 @@ namespace Jogos.Domain
         public int Id { get; set; }
         
         public string Nome { get; set; }
+       
 
          public IEnumerable<JogoGenero> JogosGeneros { get; set; }
 

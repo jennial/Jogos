@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using jogos.Persistence;
+using jogos.Persistence.Contexto;
 
 namespace Jogos.Persistence.Migrations
 {

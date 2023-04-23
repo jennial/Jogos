@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using jogos.Persistence;
+﻿using System.Collections.Generic;
 using jogos.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using jogos.Persistence.Contexto;
 using Jogos.Application.Contratos;
+using System.Threading.Tasks;
+using Jogos.Applicatio;
+using System;
 using Microsoft.AspNetCore.Http;
 
 namespace Jogos.API.Controllers
@@ -15,21 +14,22 @@ namespace Jogos.API.Controllers
     [Route("api/[controller]")]
     public class JogosController : ControllerBase
     {
-        public IJogosService JogosSevice { get; }
+        //public IJogosService JogosService { get; }
+        private readonly IService service;
 
-        public JogosController(IJogosService jogosService)
+        public JogosController(IService service)
         {           
-            this.JogosSevice = jogosService;
+            this.service = service;
 
         }     
        
         
-        [HttpGet("{nome}/nome")]
-        public async Task<IActionResult> GetByNome(string nome){
+        [HttpGet]
+        public async Task<IActionResult> Get(){
         {
          try
          {
-            var jogos = await JogosSevice.GetAllJogosByNomeAsync(nome, true);
+            var jogos = await service.GetAllJogosAsync(true);
             if (jogos == null)return NotFound("Não foi encontrado nenhuma informação");
 
             return Ok(jogos);
@@ -44,11 +44,11 @@ namespace Jogos.API.Controllers
         } 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int Id){
+        public async Task<IActionResult> GetById(int id){
         {
          try
          {
-            var jogos = await JogosSevice.GetJogoByIdAsync(Id, true);
+            var jogos = await service.GetJogoByIdAsync(id, true);
             if (jogos == null)return NotFound("Não foi encontrado nenhuma informação");
 
             return Ok(jogos);
@@ -60,17 +60,35 @@ namespace Jogos.API.Controllers
                                     $"Erro ao tentar recuperar informações{ex.Message}");
          }
         }
+        } 
+
+        [HttpGet("{nome}/nome")]
+        public async Task<IActionResult> GetByNome(string nome){
+        {
+         try
+         {
+            var jogos = await service.GetAllJogosByNomeAsync(nome, true);
+            if (jogos == null)return NotFound("Não foi encontrado nenhuma informação");
+
+            return Ok(jogos);
+         }
+         catch (Exception ex)
+         {
+            
+            return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                                    $"Erro ao tentar recuperar informações{ex.Message}");
+         }
         }
+        } 
 
 
         [HttpPost]
-        
         public async Task<IActionResult> Post(Jogo model){
         {
          try
          {
-            var jogos = await JogosSevice.AddJogos(model);
-            if (jogos == null)return BadRequest("Erro ao adicionar informações");
+            var jogos = await service.AddJogo(model);
+            if (jogos == null)return BadRequest("Não foi encontrado nenhuma informação");
 
             return Ok(jogos);
          }
@@ -78,19 +96,18 @@ namespace Jogos.API.Controllers
          {
             
             return this.StatusCode(StatusCodes.Status500InternalServerError, 
-                                    $"Erro ao tentar adicionar informações{ex.Message}");
+                                    $"Erro ao tentar recuperar informações{ex.Message}");
          }
         }
-        }
+        } 
 
-        [HttpPut("{id}")]
-        
-        public async Task<IActionResult> Put(int Id, Jogo model){
+        [HttpPut]
+        public async Task<IActionResult> Put(int id, Jogo model){
         {
          try
          {
-            var jogos = await JogosSevice.UpdateJogo(Id, model);
-            if (jogos == null)return BadRequest("Erro ao adicionar informações");
+            var jogos = await service.UpdateJogo(id, model);
+            if (jogos == null)return BadRequest("Não foi encontrado nenhuma informação");
 
             return Ok(jogos);
          }
@@ -98,10 +115,29 @@ namespace Jogos.API.Controllers
          {
             
             return this.StatusCode(StatusCodes.Status500InternalServerError, 
-                                    $"Erro ao tentar atualizar informações{ex.Message}");
+                                    $"Erro ao tentar recuperar informações{ex.Message}");
          }
         }
-        }
+        } 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id){
+        {
+         try
+         {
+           if(await service.DeleteJogo(id))
 
+            return Ok("Deletado");
+            else
+            return BadRequest("Não foi encontrado nenhuma informação");
+
+         }
+         catch (Exception ex)
+         {
+            
+            return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                                    $"Erro ao tentar recuperar informações{ex.Message}");
+         }
+        }
+        } 
     }
 }

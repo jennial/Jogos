@@ -7,7 +7,7 @@ using jogos.Domain.Models;
 using Jogos.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace jogos.Persistence
+namespace jogos.Persistence.Contexto
 {
     public class JogosContext : DbContext
     {
@@ -18,7 +18,7 @@ namespace jogos.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
             modelBuilder.Entity<JogoGenero>()
-                .HasKey(JG => new{JG.JogoId, JG.GeneroId});
+                .HasKey(JG => new {JG.JogoId, JG.GeneroId});
         }
 
     }
