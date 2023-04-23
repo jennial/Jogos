@@ -1,13 +1,17 @@
 <router-outlet></router-outlet>
 <app-nav></app-nav>
+
 <app-titulo [Titulo]="'Jogos Disponíveis!'"></app-titulo>
 <div class="form-inline">
+<div class="card rounded shadow-sm p-3">
 
-  <div class="form-group mb-2">
+
+<div class="form-group mb-2 ">
+    <label class="mr-2">Filtro:</label>
     <input type="text" class="form-control mr-2"
     placeholder="buscar"[(ngModel)]="filtro">
   </div>
-</div>
+
 <!--<h3>teste={{filtro}}</h3> -->
 
 <table class="table table-striped">
@@ -18,7 +22,7 @@
       <th>Data de Lançamento</th>
       <th>Gênero do Jogo</th>
       <th>Desenvolvedora</th>
-      <th>Button</th>
+      <th></th>
 
     </tr>
   </thead>
@@ -35,4 +39,5 @@
     </tr>
   </tbody>
 </table>
-
+</div>
+</div>

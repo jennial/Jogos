@@ -1,7 +1,9 @@
 
 import { Component, OnInit } from '@angular/core';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { JogoService } from '../../services/jogo.service';
 import { Jogo } from '../../models/Jogo';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-jogos',
@@ -10,7 +12,7 @@ import { Jogo } from '../../models/Jogo';
   providers: [JogoService]
 })
 export class JogosComponent implements OnInit{
-
+  jogo = {} as Jogo;
   public jogos: any = [];
   public jogosFiltrados: Jogo[] = [];
   private _filtro: string='';
@@ -29,20 +31,29 @@ export class JogosComponent implements OnInit{
       (jogo: { nome: string; }) => jogo.nome.toLocaleLowerCase().indexOf(filtrarOs) !== -1
     )
   }
-//atribui o filtro de busca para #filtrarjogos
- //se o filtrolista for alterado será alterado o filtrarjogos
 
-   // filtrarJogos(filtrarOs: string): any{
-     // filtrarOs = filtrarOs.toLocaleLowerCase();
-      //return this.jogos.filter(
-      //  (jogo: { nome: string; }) => jogo.nome.toLocaleLowerCase().indexOf(filtrarOs) !== -1
-     // )
-    //}
+  constructor(private jogoService: JogoService,
+              private router: ActivatedRoute
 
-  constructor(private jogoService: JogoService){}
+              ){}
 
   ngOnInit(): void{
     this.getjogos();
+  }
+
+  public carregarJogo(): void {
+    const jogoIdParam = this.router.snapshot.paramMap.get('id');
+      if(jogoIdParam === null){
+        //this.jogoService.getjogosById(+jogoIdParam).subscribe(
+        //   (jogo: Jogo) => {
+        //   this.jogo = {...jogo};
+        //   this.form.patchValue(this.jogo);
+        //   },
+        //   () => {},
+        //   () => {}
+        // )
+      }
+
   }
 
   public getjogos(): void{

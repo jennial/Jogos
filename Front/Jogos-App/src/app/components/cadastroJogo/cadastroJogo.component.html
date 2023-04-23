@@ -1,3 +1,53 @@
+<router-outlet></router-outlet>
 <app-nav></app-nav>
 
-<router-outlet></router-outlet>
+
+
+<form class="p-1">
+	<div class="pb-2 d-block d-md-none">
+		<h3 class="border-bottom">Cadastro de Usuário</h3>
+	</div>
+
+	<div class="form-row">
+		<div class="form-group col-sm-6">
+			<label>Título</label>
+			<input type="text" class="form-control" placeholder="Insira o nome do Jogo" />
+		</div>
+		<div class="form-group col-sm-6">
+			<label>Descrição</label>
+			<input type="text" class="form-control" placeholder="Insira o Último nome" />
+		</div>
+	</div>
+
+  <div class="form-group col-md-4">
+    <label>Data de Lançamento</label>
+    <input type="datetime" class="form-control" placeholder="dd/mm/aaa" bsDatepicker dateInputFormat='DD/MM/YYYY' showWeekNumbers=false>
+  </div>
+
+  <div class="form-group col">
+    <label>Gênero</label>
+    <select class="form-control">
+      <option value=""></option>
+      <option value="0">Não Quero</option>
+      <option value="Senhorita">Tecnólogo(a)</option>
+      <option value="Senhorita">Ficcao</option>
+
+    </select>
+  </div>
+
+  <div class="form-group">
+		<label for="">Desenvolvedora</label>
+		<input class="form-control" type="text" placeholder="Insira o nome da Desenvolvedora" />
+	</div>
+
+
+
+	<div class="form-row">
+		<div class="form-group col-12">
+			<button class="btn btn-lg btn-success btn-block px-5">
+				Registar
+			</button>
+		</div>
+	</div>
+
+</form>

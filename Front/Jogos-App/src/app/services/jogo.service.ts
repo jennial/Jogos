@@ -20,4 +20,18 @@ constructor(private http: HttpClient) { }
     return this.http.get<Jogo>(`${this.baseURL}/${id}`);
 
    }
+
+
+   public post(jogo: Jogo): Observable<Jogo>{
+    return this.http.post<Jogo>(this.baseURL, jogo);
+
+   }
+   public put(id: number, jogo: Jogo): Observable<Jogo>{
+    return this.http.put<Jogo>(`${this.baseURL}/${id}`, jogo);
+
+   }
+   public delete(id: number): Observable<string>{
+    return this.http.delete<string>(`${this.baseURL}/${id}`);
+
+   }
 }

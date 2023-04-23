@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { TituloComponent } from './components/titulo/titulo.component';
 import { CadastroGeneroComponent } from './components/cadastroGenero/cadastroGenero.component';
 import { CadastroJogoComponent } from './components/cadastroJogo/cadastroJogo.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { CadastroJogoComponent } from './components/cadastroJogo/cadastroJogo.co
     HttpClientModule,
     BrowserAnimationsModule,
     CollapseModule.forRoot(),
-    FormsModule
+    FormsModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
