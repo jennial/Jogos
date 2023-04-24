@@ -30,10 +30,10 @@ namespace Jogos.Persistence
             context.Remove(entity);
         }
 
-        // public void DeleteRange<T>(T[] entityArray) where T : class
-        // {
-        //     context.RemoveRange(entityArray);
-        // }
+        public void DeleteRange<T>(T[] entityArray) where T : class
+        {
+            context.RemoveRange(entityArray);
+        }
 
         public async Task<bool> SaveChangesAsync()
         {
