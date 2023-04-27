@@ -21,8 +21,7 @@ namespace Jogos.API.Controllers
         {           
             this.service = service;
 
-        }     
-       
+        }            
         
         [HttpGet]
         public async Task<IActionResult> Get(){

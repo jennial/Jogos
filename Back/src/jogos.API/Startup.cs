@@ -29,7 +29,7 @@ namespace jogos.API
             );
             services.AddControllers();
             services.AddScoped<IService, Service>();
-           services.AddScoped<IJogosPersistence>();
+            services.AddScoped<IJogosPersistence, JogosPersistence>();
 
             services.AddCors();
             services.AddSwaggerGen(c =>
